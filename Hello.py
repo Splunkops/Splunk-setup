@@ -11,7 +11,7 @@ log_dir = "/opt/test"
 # Splunk UF server details
 UF_USER = "ec2-user"                       # Splunk UF username
 UF_HOST = "13.204.233.48"    # Splunk UF hostname or IP
-UF_DIR = "/opt/splunkforwarder/etc/sysem/local"        # Directory monitored by UF
+UF_DIR = "/opt/splunkforwarder/etc/system/local"        # Directory monitored by UF
 
 # -----------------------------
 # CREATE LOG FILE
