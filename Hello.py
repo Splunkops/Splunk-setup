@@ -1,42 +1,40 @@
 import os
-from datetime import datetime
 import subprocess
+from datetime import datetime
 
-# -----------------------------
-# CONFIGURATION
-# -----------------------------
-# Directory where the log file will be created on Jenkins server
+# --- Configuration ---
 log_dir = "/opt/test"
+remote_host = "13.204.233.48"  # Splunk forwarder IP
+remote_user = "ec2-user"
+remote_dir = "/home/ec2-user/"  # target path on remote host
+ssh_key_path = "/opt/secret/id_rsa"  # path to your private key
 
-# Splunk UF server details
-UF_USER = "ec2-user"                       # Splunk UF username
-UF_HOST = "13.204.233.48"    # Splunk UF hostname or IP
-UF_DIR = "/opt/splunkforwarder/etc/system/local"        # Directory monitored by UF
+# --- Generate timestamp ---
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-# -----------------------------
-# CREATE LOG FILE
-# -----------------------------
-# Ensure the directory exists
+# --- Dynamic log filename ---
+log_filename = f"app_log_Splunk{timestamp}.txt"
+
+# --- Ensure local log directory exists ---
 os.makedirs(log_dir, exist_ok=True)
 
-# Dynamic filename with timestamp
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-log_file = os.path.join(log_dir, f"app_{timestamp}.log")
+# --- Create log file ---
+log_path = os.path.join(log_dir, log_filename)
+with open(log_path, "a") as log_file:
+    log_file.write(f"{datetime.now().isoformat()} - Log entry created\n")
 
-# Write sample content
-with open(log_file, "w") as f:
-    f.write(f"{datetime.now()} INFO Sample log created on Jenkins\n")
+print(f"Log file created: {log_path}")
 
-print(f"Log file created: {log_file}")
-
-# -----------------------------
-# SCP LOG FILE TO SPLUNK UF
-# -----------------------------
-scp_command = ["scp", log_file, f"{UF_USER}@{UF_HOST}:{UF_DIR}/"]
+# --- SCP the same file to Splunk forwarder ---
+scp_command = [
+    "scp",
+    "-i", ssh_key_path,
+    log_path,
+    f"{remote_user}@{remote_host}:{remote_dir}{log_filename}"
+]
 
 try:
-    print(f"Copying {log_file} to {UF_USER}@{UF_HOST}:{UF_DIR}/ ...")
     subprocess.run(scp_command, check=True)
-    print("File successfully copied to Splunk UF server")
-except subprocess.CalledProcessError:
-    print("ERROR: Failed to copy file to Splunk UF server")
+    print(f"Successfully copied {log_filename} to {remote_host}:{remote_dir}")
+except subprocess.CalledProcessError as e:
+    print(f"Failed to copy file: {e}")
