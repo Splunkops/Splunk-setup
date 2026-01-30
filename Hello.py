@@ -23,7 +23,7 @@ log_path = os.path.join(log_dir, log_filename)
 with open(log_path, "a") as log_file:
     log_file.write(f"{datetime.now().isoformat()} - Log entry created\n")
 
-print(f"Log file created: {log_path}")
+print(f"Log file created: {log_path}") 
 
 # --- SCP the same file to Splunk forwarder ---
 scp_command = [
