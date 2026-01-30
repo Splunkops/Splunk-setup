@@ -21,7 +21,7 @@ os.makedirs(log_dir, exist_ok=True)
 # --- Create log file ---
 log_path = os.path.join(log_dir, log_filename)
 with open(log_path, "a") as log_file:
-    log_file.write(f"{datetime.now().isoformat()} - Log entry created\n")
+    log_file.write(f"{datetime.now().isoformat()} - Log entry created\n") 
 
 print(f"Log file created: {log_path}") 
 
