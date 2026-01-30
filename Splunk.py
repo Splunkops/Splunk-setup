@@ -7,7 +7,7 @@ log_dir = "/opt/test"
 remote_host = "13.204.233.48"  # Splunk forwarder IP
 remote_user = "ec2-user"
 remote_dir = "/home/ec2-user/"  # target path on remote host
-ssh_key_path = "/opt/secret/id_rsa"  # path to your private key
+ssh_key_path = "/opt/secret/id_rsa"  # path to your private key 
 
 # --- Generate timestamp ---
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
