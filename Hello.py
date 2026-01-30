@@ -1,9 +1,13 @@
 from datetime import datetime
+import os
 
-now = datetime.now()
-formatted = now.strftime("%Y-%m-%d %H:%M:%S")
-print(formatted)
+log_dir = "/opt/test/"
+log_file = os.path.join(log_dir, "app.log")
 
-print("Hello, World!")
+os.makedirs(log_dir, exist_ok=True)
 
-print("Hello, Splunk")
+with open(log_file, "a") as f:
+    f.write(f"{datetime.now()} Application started\n")
+    f.write(f"{datetime.now()} Sample log entry\n")
+
+print("Log file created and updated")
