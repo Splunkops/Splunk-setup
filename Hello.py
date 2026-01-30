@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 
 log_dir = "/opt/test/"
-log_file = os.path.join(log_dir, "app.log")
+log_file = os.path.join(log_dir, "app1.log")
 
 os.makedirs(log_dir, exist_ok=True)
 
